@@ -1,0 +1,37 @@
+CS50 Week 3 Notes
+
+The main function in C returns a 0 if there are no errors and another integer if not. If you pass arguments into main, convention dictates that the first is called int argc and second is string argv[].
+
+Argc is an integer that represents the number of arguments passed in. Argv[] is an array that stores the arguments made, which are strings. Argv[0] will be the name of the program.
+
+When iterating through each string, or array of chars, you can access each char like this: argv[i][j].
+
+Sorts
+
+BUBBLE SORT
+A bubble sort starts at index 0 and compares it's number to the one next to it. If it is larger than index 1, the numbers are swaped. This process is repeated until that number, originally at index 1, is in an index next to a larger number. We continue down the array until there are no more numbers to swap and then repeat until all are in order. Example: 245361 to 243561 to 243516 to 234516 to 234156 to 231456 to 213456 to 123456 (n2).
+
+SELECTION SORT
+A selection sort picks the smallest value and switches it with the first value in the array. Now that number (array[0]) is "sorted". Then you find the next smallest number starting from the first "unsorted" index ([1]) and repeat until all numbers are "sorted". Example: 245361 to 1|45362 to 12|5364 to 123|564 to 123456| (n2).
+
+INSERTION SORT
+An insertion sort is where you declare the first element of an array as "sorted" (list of it's own). Then you compare the next element to that. If it is greater, then you leave it and it is sorted. If it is less than you insert it behind the sorted number. If the next number is less than the number sorted last, you insert it into the sorted numbers. Example: 2|45361 to 24|5361 to 245|361 to 2345|61 to 23456|1 to 123456 (n2).
+
+These are similarily effecient across cases and all very ineffecient for large amounts of data. In the example case you can see two out of three were very close in steps. 
+
+MERGE SORT
+A merge sort divides a data set into peices of one and then merges those pieces into a new data set. It is a recursive algorithm. Remove the smaller number of each sub array, by comparison, and append it to the merged array.
+
+Big O notation
+
+This refers to the 
+
+O(n2)
+Upper bound on bubble sort. Going through n times each operation.
+O(n)
+Going through once per operation. Lower bound bubble sort.
+O(logn)
+Reduces in half each time.
+O(1)
+Constant number of steps.
+
