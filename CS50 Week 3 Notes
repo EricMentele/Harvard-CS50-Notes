@@ -12,26 +12,43 @@ BUBBLE SORT
 A bubble sort starts at index 0 and compares it's number to the one next to it. If it is larger than index 1, the numbers are swaped. This process is repeated until that number, originally at index 1, is in an index next to a larger number. We continue down the array until there are no more numbers to swap and then repeat until all are in order. Example: 245361 to 243561 to 243516 to 234516 to 234156 to 231456 to 213456 to 123456 (n2).
 
 SELECTION SORT
-A selection sort picks the smallest value and switches it with the first value in the array. Now that number (array[0]) is "sorted". Then you find the next smallest number starting from the first "unsorted" index ([1]) and repeat until all numbers are "sorted". Example: 245361 to 1|45362 to 12|5364 to 123|564 to 123456| (n2).
+A selection sort picks the smallest value and switches it with the first value in the array. Now that number (array[0]) is "sorted". Then you find the next smallest number starting from the first "unsorted" index ([1]) and repeat until all numbers are "sorted". Example: 245361 to 1|45362 to 12|5364 to 123|564 to 123456| (O(n2)).
 
 INSERTION SORT
-An insertion sort is where you declare the first element of an array as "sorted" (list of it's own). Then you compare the next element to that. If it is greater, then you leave it and it is sorted. If it is less than you insert it behind the sorted number. If the next number is less than the number sorted last, you insert it into the sorted numbers. Example: 2|45361 to 24|5361 to 245|361 to 2345|61 to 23456|1 to 123456 (n2).
+An insertion sort is where you declare the first element of an array as "sorted" (list of it's own). Then you compare the next element to that. If it is greater, then you leave it and it is sorted. If it is less than you insert it behind the sorted number. If the next number is less than the number sorted last, you insert it into the sorted numbers. As you are comparing each sorted number, each is shifted an index to create a space for the unsorted number to eventually be sorted. Example: 2|45361 to 24|5361 to 245|361 to 2345|61 to 23456|1 to 123456 (O(n2)).
+
+QUICK SORT
+
+Usually O(nlogn). Picks the final element of the array and defines it as the pivot. The lowest index[0] is to the right of the wall. The element there is the current element. You take the current element and compare it to the pivot. If it is larger, you leave it to the "right" (+1) of the wall. 
 
 These are similarily effecient across cases and all very ineffecient for large amounts of data. In the example case you can see two out of three were very close in steps. 
 
 MERGE SORT
-A merge sort divides a data set into peices of one and then merges those pieces into a new data set. It is a recursive algorithm. Remove the smaller number of each sub array, by comparison, and append it to the merged array.
+A merge sort divides a data set into peices of one and then merges those pieces into a new data set. It is a recursive algorithm. Remove the smaller number of each sub array, by comparison, and append it to the merged array. Merge sorts are O(nlogn).
 
 Big O notation
 
-This refers to the 
+This refers to the asymptotic complexity of an algorithm.
 
 O(n2)
 Upper bound on bubble sort. Going through n times each operation.
 O(n)
-Going through once per operation. Lower bound bubble sort.
+Going through once per operation.
 O(logn)
 Reduces in half each time.
 O(1)
 Constant number of steps.
+
+Big O is the worst case runtime of an algorithm.
+Big Omega refers to the best case runtime of an algorithm.
+Big Theta means the best and worst cases are the same.
+
+Binary Search Tree
+It is a way to store data in a sorted way that is maintained when data is removed or added.
+
+Has three traits:
+1. All subtrees to the left of a node contain values that are equal to or less than it.
+2. All to the right are greater than or equal to the node's value.
+3. All subtrees are binary search trees.
+
 

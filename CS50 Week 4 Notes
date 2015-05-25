@@ -1,0 +1,117 @@
+CS50 Week 4 Notes
+
+Merge Sort:
+
+n elements are passed into the sort.
+If your elements are already sorted the running time will be T(n) = O(1). n elements goes in and the time is constant. Each element is touched once.
+If they are not sorted then the algorithm is represented as T(n) = T(n/2) + T(n/2) + O(n). Sort the left half then the right. Merge the peices.
+This sort is recursive.
+
+Sigma function (recursion):
+
+This function adds all the numbers from 0 to n. n is just the input. Rather than using a for loop to increment a variable each time and add that with n to a sum variable. Sigma is recursive and calls itself until n = 0 like this: if n = 0 return 0 else return n + Sigma(n - 1). Eventually it will return the sum total + 0. When it calls itself for the last time it returns 0 but since it is calling itself the final return value will be it's last execution's sum plus it's final execution's sum.
+
+Swap function:
+
+Swap takes in two integers, a and b then swaps them by assigning a to a tmp variable, then assigning b to a and then tmp to b. This curent version does not work though because the original a and b are outside of the swap funcions scope. It is only swapping the local copies.
+
+Gdb debugger:
+
+Gunue debugger is a commandline debugger. You operate it with:
+run: runs the program
+break: eg. break main. Will stop the program at main.
+next: executes next line of code
+step: executes the next function
+print: eg. print x. Will print the output of the line of code you give it.
+list: Prints all the code surrounding the current line you are executing.
+display:
+backtrace:
+frame:
+
+Files, Headers and Hex:
+
+A file type is determined by a pattern of numbers at the beginning of the file aka, in the header. These numbers are usually hexidecimal. Hexidecimal is started with a 0x and then the next two numbers are base 16. So 0x2f would be 47.
+
+Structs:
+
+Structs are data types that allow you to store pieces of data together. You create one with typedef struct {} structName; You can access the pieces of the struct with . syntax. e.g. If a struct has a string called student you can access its value by using .student.
+
+Strings:
+
+A string data type is really a pointer. It stores an address to a location in memory containing the first character in the string. The other characters in the string are in neighboring sequential memory locations. These are a part of the string until a null (\0) character is reached. This ends the string. It is best practice to always check strings for NULL with an if statement before working with them.
+
+Memory Allocation:
+
+For a pointer to be useful you need it to point to an existing block of memory holding data or a pionter of its type, or it needs another block of memory to be allocated for data of its type, to point to. Three main ways to do this are with malloc, calloc or realloc.
+In the example char* t = malloc((strnlen(s) + 1) * sizeof(char));, we are creating a pointer in a memory block that points to a location in memory (another block) that will store a char, then allocating the length of s bytes, +1 for a NULL character, off of that location multiplied by the size of a char to make sure there are enough bytes to store s (length of s) number chars. e.g. s = dog which has 3 letters so we need to pick a memory block big enough for a character and then pick enough memory blocks next to that to store 3 chars (letters).
+
+Pointer & Dereference:
+
+A * without a type behind it is a dereference operator and is seperate from a pointer. Dictionary.com defines dereference as "To access the thing to which a pointer points, i.e. to follow the pointer." When you use this operator on a pointer it goes to that location and follows the pointer to another memory location (dereferences the pointer to yield what it points to). If you assign it something with =, it changes the value there. The opposite of the dereference operator is the address (&) operator.
+
+You can point to a pointer with a pointer like this for example: int** dpoint = &pointer;. Now if you change dpoint, you will change the int point is pointing to. To do that you use double dereference like this: **dpoint = 4. This dereferences dpoint to get point, which is dereferenced to get an int and then is changed to 4.
+
+An & gives you an adress and a * goes to that address or dereferences it to give you the value there. The & is the address and the * is the house. A pointer being declared sets up the address and then the = sign puts the house there.
+
+NULL pointers should never be dereferenced or you will get a SEGMENTATION FAULT. When allocating memeory to a pointer you should check to make sure NULL was not returned, meaning there was not enough memory.
+
+Pointers are there so that you can access existing containers (memory blocks) and get or change the values there. Without them you just keep creating new containers ("empty" memory blocks) and values.
+
+Pointer arithmetic means that if you add to a pointer it will add the amount of it's value type. e.g. int* ptr; ptr++ will add 4 bytes for the size of a int.
+
+File I/O:
+
+File input and output. Files are made up of binary at the lowest level and is what all programs are made of. File I/O is what happens when this code is taken in and run, resulting in output. The process of doing this has 3 steps:
+
+1. First, in C, you open it via a pointer to a predefined struct that represents the file on disk. This comes with instructions to read from or write to the file.
+
+2. Then you do the actual reading or writing with predefined, speacialized functions starting with F.
+
+3. Last you close the file.
+
+A file pointer (FILE*) needs to be used to store the location of the file being accessed. Example: FILE *fp;.
+
+Functions for File I/O include: fopen, fwrite, fread, fprintf, fscanf, fputs, fgets, fgetc and fputc, ferror, feof.
+
+FIRST:
+The first you need to execute is fopen (FILE *fopen(const char *filename, const char *mode);) which will return a file pointer. This needs you to set the mode (purpose for opening the file) with one of these designators: r, w (write from the beginning which will possibly overwrite existing data), a (write from end to add to file), r+ (read and write, start at beginning), w+ (r & w, overwrite file), a+ (r & w, append to file). If fopen fails it will return 0 (NULL pointer). Example: FILE *fp; fp=fopen("c:\\test.txt", "r");. IT IS BEST PRACTICE TO CHECK IT FOR NULL WITH IF().
+
+NEXT:
+To read and write to a file (input and output text), you need fprintf, fscanf, fputs, fgets, fputc and fgetc.
+
+fprintf and fscanf are similar to the versions absent the preceding f; however, you must pass them a file pointer. Example of fprintf: FILE *fp; fp=fopen("c:\\example.txt", "w"); fprintf(fp, "Example....\n");.
+
+fputs takes two arguments. What needs to be written (string) and where (file pointer) it needs to be written to.
+
+fgets takes three arguments. The pointer to the array of characters for the string to be stored, the maximum number of characters to be stored, the pointer to the file to read from. This returns a line of text rather than a character.
+
+fgetc (int fgetc(FILE *fp);) allows for single characters to be read from a file at a time rather than strings. This returns and int big enough to hold an unsigned char or EOF if it reaches the end of a file or fails.
+
+fputc (int fputc(int c, FILE *fp);) does the opposite of fgetc.
+
+fread reads a certain number of bytes and places them into an array.
+fread and fwrite are for binary file I/O. Their function definitions are:
+size_t fread(void *ptr, size_t size_of_elements, size_t number_of_elements, FILE *a_file);
+size_t fwrite(const void *ptr, size_t size_of_elements, size_t number_of_elements, FILE *a_file);
+Ther first reads into memory and the second writes from memory into a file. fread will read from a file until it has filled a target array and then return the number of elements that it read. You want to use feof with this to check if the end of the file being read was reached.
+
+e.g. of fwrite:
+FILE *fp;
+fp=fopen("c:\\test.bin", "wb");
+char x[10]="ABCDEFGHIJ";
+fwrite(x, sizeof(x[0]), sizeof(x)/sizeof(x[0]), fp);
+
+feof and ferror can check for the reason of a NULL pointer being returned when reading from a file.
+When using loops to read through a file it is good to use fgets != NULL as this function will return null when the end of the file has been reached.
+
+FINALLY:
+When you are at the end of working with a file you need fclose (int fclose(FILE *a_file);). Example: fclose(fp);.
+
+Redirection:
+
+> is for output. You can use this to print the output of a program to a file instead of stdout, for example: ./hello > output.txt
+	>> appends the output to the target instead of overwriting it
+	2> appends only error messages
+< is for input. You can redirect the contents of a file as input for a program, for example: ./hello < input.txt.
+| the pipe is for taking the output of one program and using it as the input for another program.
+
