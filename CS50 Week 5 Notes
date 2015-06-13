@@ -1,0 +1,231 @@
+CS50 Week 5 Notes
+
+Pointer Review:
+
+GetString uses malloc to allocate a chunk of memory in which letters obtained from the user and a \0 (NULL) character will be stored. It then returns a pointer to that location in memory which is a char* since chars are stored there. Whenever you are accessing pointers that are initialized with a function, it is best practice to check them for NULL. If the function setting up the address failed then you will have NULL instead of an address.
+
+Side Note: "Computers with 32bit architecture (uses 32-bits to address memory) can only have 4GB of memory because they can only count as high as 4 billion bytes, since they're using 32bits, or 4 bytes, as addresses."
+
+A pointer only stores the address of the first character in memory. If you dereference a pointer you will get that first character and if you reference, or print a pointers value without a dereference symbol, you will get the memory location and it's contents. When you assign a pointer to a pointer it just gives it the same value as that pointer so then you have two pointers pointing to the same location.
+
+If you wanted to swap values you would have to set up a pointer that will point to the memory locations of those values and give those pointers their addresses. Then by dereferencing one of those pointers you can make a copy of the value stored in that memory location. Then you want to dereference both pointers and assign the value of the uncopied pointer to the copied pointers memory location which will overwrite it. Finally you would dereference the most recent pointer to access it's memory and overwrite it with the copied value.
+
+Memory addresses are represented by hexidecimal values and accessed by the & (address) operator. Pointers reference addresses and you have to dereference them to access the data inside the memory at that address.
+Malloc:
+
+scanf will scan input from the keyboard. Example: scanf("%i", &x); The %i is the type expected and &x is the location to store the input.
+sscanf takes a string in memory and can do things with it. Example: sscanf(line, " %i %c", &n, &c). Line is a string (char*) and the symbols in "" represent whitespace, int and char as expected input. This function returns the number of variables it recieves.
+
+Pointer+:
+
+When you set up a pointer it originally has a garbage value placeholder. You need to allocate enough memory to it to at least store data of it's type. Example: double* x = malloc(sizeof(double));. x now has an adress to the allocated memory instead of a garbage value. To put a value in that memory you need to dereference x (*x), to go to that memory, and asign it a value with =, ex. *x = 1.0.
+
+Valgrind:
+
+This will check your programs for memory leaks by running valgrind ./programName. If you do not free memory after it is done being used it will create a "leak". It is done like this free(pointer);.
+
+Execution memory:
+
+Every program is copied from the hard drive to RAM for the duration of it's execution. It has a top to bottom distribution of text, initialized data, uninitialized data, heap to stack, then environmental variables.
+Your compiled program takes up the top segment, text.
+The next two segments of inited and uninited data are for hardcoded static strings and global variables.
+The stack has been used for function operation on copies of variables that have been passed in as arguments. Local variables in functions live in the stack. It's purpose is to store temporary variables and it's structure is first in last out so it changes in size as variables are pushed and popped from it. There is a limit to how much it can store at a time. Stack memory is automatically managed and variables are released when their function exits.
+The heap is manually managed, memory wise, with malloc and calloc to allocate, and free to release. You can also resize variables on the heap with realloc. The heap does not have the size restrictions of the stack and needs to be accessed with pointers. It is a bit slower to read from and write to because of this. Heap variables are global in scope and can be accessed by any function. Some further drawbacks to the heap are that unlike the stack, effecient memory management is not ensured, and the allocation/freeing of memory can create fragmentation over time.
+Environmental variables are the global settings for the program.
+
+Buffer Overflow:
+
+If the heap and stack collide due to lack of memory there are problems. When using input with pointers it is crucial to check the boundaries of that allocated memory so you can't have a buffer overflow. This can make your computer vulnerable to an attack by allowing it to be tricked into running code that is overflowed into other parts of memory. It is also related to a stack overflow.
+
+ALWAYS CREATE INPUT BOUNDARIES AND CHECK FOR THEM SO THAT INPUT DOES NOT EXCEED MEMORY SPACE.
+
+Functions and the stack:
+
+When main gets called in a C program it is placed on the stack with a stack frame. This is a portion of stack memory being used by main while it runs. When main calls another function it allocates memory for it's return value which it pushes onto the stack along with the variables being passed as arguments. Then the stack frame for the function being called by main is pushed on and it is executed. After execution it is popped off along with the argument variables and the return value is popped of after it's use or immediately if it is unused. A stack overflow is when the memory allocated for the stacks use is exceeded by some input when the input is not restricted to the memory available. This is a danger of C memory management and the overflow can overwrite the allocated return variable memory which can allow an attacker to inject code to be run.
+
+Malloc:
+
+This function allocates memory to the heap and allows you to dynamically allocate it as needed, if needed. It is started at the top so that it won't interfere with the stack. Malloc's opposite is free and anything allocated with malloc should be freed.
+
+Linked List:
+
+A linked list is useful to overcome the size restrictions of an array. You can potentially link different data types together with this data structure. It consists of a struct containing a piece of data and a pointer. We call this a node (an element in a data structure). The pointer points to another struct of the same composition. The first node is called the head and has a pointer called first that points to it.
+A linked list should have the folowing methods: 1 delete, 2 insert, 3 search, 4 traverse, 0 quit. Also a linked list will sort it's values from smallest to largest. You need a pointer to a pointer that will keep track of your position in the linked list. To access a struct's value, that a pointer is pointing to, ptr->n can be used or (*ptr).n. node* ptr; Is a pointer to a node which is why you need the -> to access that nodes values rather than just . notation.
+
+Searching:
+
+The basic search is like this: You have ptr to the first node. You check that value against what you're looking for (ptr->n == n). If it does'nt match then ptr = next, which is the struct's pointer pointing to the next struct. Repeat the process until the end of the linked list (NULL) is reached.
+
+Inserting:
+
+This follows the same pattern as search but checks to make sure the number being inserted is less than an existing node's number. If it is less than the head it will point to the head, becoming the head itself by the first pointer being reasigned to it. It can be added to the end too. To insert in the middle you need a predptr (predecessor pointer) to keep track of the last node checked so that if it is less than the next node you can have it point to that one and the last one point to this one.
+
+Removing:
+
+If you want to remove the last node you would make the second to last point to NULL and free the last node's pointer. You do this same process with the help of predpointer for all other operations.
+
+Images:
+
+Rasterized images are what screens display. A raster graphics image refers to one that is a dot matrix data structure ("two dimensional patterned array"), mapped to and displayed by, a rectangular grid of pixels. This array of colors is also known as a "pallete" or "CLUT" (color lookup table). These are stored in image files of different formats. In it's simplest form it has a one to one ratio or 1 bit per pixel (picture element) and is called a single-bit raster. The file type of this stored image is called a bitmap. Each bit can display black or white. A bitmap file (single-bit) will be image width times height bits in size.
+
+When a pixel is given more than one bit it will increase the number of colors that can be displayed by it. An image that has more than one bit per pixel is called a pixmap; although, this is an old definition and bitmap (.bmp) is regularily used for images that can display multiple bits per pixel. In this case the size of an image is height times width times bits per pixel. Again, for clarity, pixmaps and bitmaps are coloquially referring to a "spatially mapped array of bits" which can store more than one bit per pixel. These fall under the umbrella of bitmap file format.
+
+The bits per pixel (bpp) decide the colors that are able to be displayed, however; the amount of memory that a system can dedicate to each pixel dictates how many colors it can have displayed. The limiting factor is the computers VRAM (Video Random Access Memory). For example, my monitor is 1280 by 800 which amounts to 1,024,000 pixels. If my video card memory were approximately a megabyte evenly divided between all of my monitor's pixels, then my monitor might only display black and white images due to my computer having only enough memory to use about one bit per pixel. If I had 8 bits available per pixel, or just under 8 megabytes of video memory, then I could display up to 256 colors (unique combinations of bits) per pixel or 2 to the 8th power. 2 representing 0 or 1 per bit and 8 being the bits per pixel. The amount of memory that a can be assigned to each pixel on a monitor is also known as "color depth".
+
+BMP
+
+This is the main image format for Windows OS along with DIB format. DIB is the same as BMP minus the file header. This file format is used to store any type of bitmap data. In Windows 1.x this file is composed of a header file and bitmap data file. Windows 2-4.x has 4 section BMP files. File header, Bitmap header, Color Pallette and Bitmap data. The first two bytes in the header must represent the file type or B and M for bit map.
+
+Notes directly from pset and links:
+For a 24 bit BMP it is made of sequences of 24 bits, each of which is the color of a pixel. Meta data (ie. height and width of image) is stored at the beginning of the file. This is in the form of two structures called headers. The headers are called BITMAPFILEHEADER (14 bytes) and BITMAPINFOHEADER (40 bytes). There is an additional header called RGBQUAD that is present in BMP files smaller than 24 bit.
+
+Below the headers is the image data in bits per pixel which are in triple groups for RGB values. These are in hexadecimal. The triple groups are in six digit sets. Note: On the web you will see these in 3 digit sets which can be converted by doubling each digit (ex. #08D to 0088DD). Each byte represents 00 to FF in hexidecimal or 0 to 255 in decimal. The triplet is formed by concatenating 3 bytes in hexidecimal notation. EXAMPLE: R=36 G=104 B=160 is equivilent to 24 68 A0 in hexidecimal. When concatenated you get 2468A0. If the value is less than 16 (decimal) or 10 (hex), it must have a prepended 0 to maintain the 6 digit format. EXAMPLE: Decimal 4, 8, 16 = 040810 in six digit hex. EACH PAIR OF NUMBERS IS A BYTE IN HEX. FF == 1111 1111. THE SHORTHAND FORM HAS LESS COLORS SELECTABLE.
+
+BMP files store the colors in reverse order (BGR). Sometimes the whole bitmap is backwards so that the first set of numbers is the bottom row and the last row, is the top. In a 24 bit BMP the bytes have to be in multiples of 4. If your image is too small then it needs to be padded with 0s to make it a multiple of 4.
+
+STDINT.H:
+
+stdint.h is a C library header file that provides additional integer types. These exact-width types allow more portable code, meaning it can be used on multiple platforms. Minimum and maximum width values are set by using macros.
+
+http://en.wikibooks.org/wiki/C_Programming/C_Reference/stdint.h#Integer_types
+
+The limits of these types are defined with macros with the following formats:
+
+INTN_MAX is the maximum value (2N−1 − 1) of the signed version of intN_t.
+INTN_MIN is the minimum value (−2N−1) of the signed version of intN_t.
+UINTN_MAX is the maximum value (2N – 1) of the unsigned version of uintN_t.
+
+MSDN NOTES:
+
+COMMON DATA TYPES OF NOTE
+
+https://msdn.microsoft.com/en-us/library/cc230343.aspx
+
+Why is the third argument to fread always 1 in our code?
+
+What value does copy.c:70 assign padding if bi.biWidth is 3?
+
+What does fseek do?
+
+What is SEEK_CUR?
+
+BITMAP FILE HEADER contains the information about a file that contains a DIB in the following struct.
+{
+    WORD   bfType;
+        The file type; must be BM in a BMP.
+    DWORD  bfSize;
+        The size; in bytes, of the bitmap file.
+    WORD   bfReserved1;
+        Reserved; must be zero.
+    WORD   bfReserved2;
+        Reserved; must be zero.
+    DWORD  bfOffBits;
+        The offset, in bytes, from the beginning of the BITMAPFILEHEADER to the bitmap in bits.
+}
+The BITMAP FILE INFO struct follows this.
+
+BITMAP INFO HEADER struct defines the dimensions and color format of a DIB.
+
+{
+  DWORD biSize;
+  		Number of bytes required by the structure (size of just the image excluding headers).
+  LONG  biWidth;
+  		Bitmap width in pixels.
+  LONG  biHeight;
+  		Bitmap height in pixels.
+  			Note: Indicates image orientation.
+  			Positive = bottom up DIB with origin as lower left corner pixel to upper left (upside-down).
+  			Negative = top down DIB with origin as top left pixel to lower left pixel (rightside-up uncompressible).
+  WORD  biPlanes;
+  		Number of planes for target device. Must be set to one.
+  WORD  biBitCount;
+  		Number of bits per pixel.
+  DWORD biCompression;
+  		Type of compression.
+  			Note:
+  			Only bottom-up bitmaps can be compressed (bitmaps with a positive height value).
+  DWORD biSizeImage;
+  		Size in bytes of the image.
+  LONG  biXPelsPerMeter;
+  		Horizontal resolution in pixels-per-meter of the target device for the bitmap.
+  LONG  biYPelsPerMeter;
+  		Vertical resolution in pixels-per-meter of the target device for the bitmap
+  DWORD biClrUsed;
+  		Number of color indexes in the color table that are used by the bitmap. 0 indicates the maximum is being used.
+  DWORD biClrImportant;
+  		Number of color indexes required for displaying the bitmap. If 0, all colors required.
+}
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+These files can only have one color plane. The bits per pixel are maxed at 32. Sizes include: 1, 4, 8, 16, 24 and 32. A color pallete is an array of structures define the red, green and blue intensity values of each color. If a file has a pixel density of 16 or greater then there is not a color pallete because it is replaced by bitfields masks values.
+
+1 bit BMP = yields 2 colors, back and white, also reffered to as monochrome.
+8 bit BMP = greys, yields 256 options. Most commonly 8 bits mapped to a grey ramp which allows shading.
+24 bit BMP = Red, blue and green or RGB. This means 8 bits are mapped to red, blue, and green. 256 states for each component yeilds 16777216 possible colors. RGB color space is represented by a cube and any individual color can be shown as a point inside the cube.
+
+Indexed color is a way of storing color bitmaps that is greatly more effecient. This allows one bit to be stored per pixel but rather than it being the color for that pixiel, it represents the indes of a color in a color table or pallette.
+
+8 bit indexed color = Same quality of a 24 bit BMP if less than 256 colors.
+4 bit indexed color = Supports a table of up to 16 colors.
+
+32 bit BMP = RGBA with 8 bits for an alpha channel. This is used to represent transparency an has a value of 0 to 1.0.
+16 bit BMP = RGB 5 bits per color with a 1 bit alpha channel. Visible or not visible.
+
+Note: 24 bit color is the maximum which yields aproximately 16 million colors.
+
+JPEG
+
+File format that uses lossy compression to get a 10:1 size reduction with hardly any perceptible loss in image quality. JPEG is really the compression method and has multiple formats like JFIF and Exif. These are most often just called JPEGs since they use the same method of compression. JPEG is an acronym for Joint Photographic Experts Group. The primary uses of the file format are for photos and realistic images. It is popular for the web due smaller sizes. 16 million max colors
+
+GIF (Graphics Interchange Format)
+
+This file format stores multiple 8bit images that have a maximum of 256 colors that are chosen from the 24bit RGB color space. This allows animations that can select 256 colors from a seperate color pallete for each frame. GIFs use lossless compression and are great for logos and low res animations.
+
+"GIF files start with a fixed-length header ("GIF87a" or "GIF89a") giving the version, followed by a fixed-length Logical Screen Descriptor giving the size and other characteristics of the logical screen. The screen descriptor may also specify the presence and size of a Global Color Table, which follows next if present.
+
+Thereafter, the file is divided into segments, each introduced by a 1-byte sentinel:
+
+An image (introduced by 0x2C, a comma ',')
+An extension block (introduced by 0x21, an exclamation point '!')
+The trailer (a single byte of value 0x3B, a semi-colon ';'), which should be the last byte of the file." - wikipedia
+
+PNG (Portable Network Graphics)
+
+This file format uses lossless compression. Supports 24 bit RGB and 32 bit RGBA palletes, grayscale with or without alpha channel and full color non-pallete based RGB[A] images with or without alpha channel. This format was designed to transfer images on the internet. Header file starts with an 8byte signature. It's header is followed by chunks that look like this: IHDR (width, height, bit-depth, color type), PLTE (pallete), IDAT (image data) and IEND (image end). Unlike a bmp the numerical format is big-endian.
+281 trillion max colors
+
+Open Source Security Notes:
+
+Hard drives need to be sanatized in order to protect sensitive information. If a hard drive is erased without being overwritten with 0s, the data can be recovered.
+FAT system: Has 4 versions which are FAT12, FAT16, VFAT, FAT32. A hard disk is always addressed in terms of 512 byte sectors. The FAT file system further groups this into clusters. The clusters are either part of a file and has a pointer to the next part of the file, the end of a file containing an EOF, free (0) or marked defective. This is a linked list of memory sectors.
+
+A directory is just a file system catologing structure. When you "delete" a directory it just dereferences the data and allows it to be overwritten.
+
+When a file is deleted it's file name is altered to signify it having been deleted and allows it's registry to be recycled. The file clusters are moved to the hard drives list of free clusters without changing their data. It will eventually be overwritten now that it is in a section allowing that. When deleting data the only way to ensure that it is gone is to overwrite the memory locations it held with junk values. When getting rid of your computer this is a good practice and multiple overwrites can ensure inability to recover data. Other methods are degaussing drives or destroying them.
+
+There are sections of a hard drive set aside for bad block management variouse other blocks that are not accessible. Slack space it leftover memory at the end of a directory. FAT formatted disks are much easier to undelete files on than Unix file systems.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
