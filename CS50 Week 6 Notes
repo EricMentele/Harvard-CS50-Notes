@@ -57,19 +57,22 @@ A linked list or an array can be used for these.
 
 TREES
 
-Root -> children-siblings (leaves). It looks like an upside-down tree with the root at the top
+Root -> children-siblings (leaves). It looks like an upside-down tree with the root at the top. Every tree under the root is a subtree.
+
+A binary tree is one where a parent has a maximum of two siblings.
 
 Made with nodes that look like
 
 typedef struct node
 {
-    int n;
+    int data;
     struct node* left;
     struct node* right;
 }
 node;
 
-Allows for the construction of a two dimensional linked list.
+A tree allows for the construction of a two dimensional linked list.
+
 Thinking with recursion, if the integers are in a sorted order, you get a binary search tree.
 
 Example algorithm
@@ -94,5 +97,8 @@ bool search(int n, node* tree)
     }
 }
 
+A binary search tree all nodes to the right of a root are greater than the root and values to the left are less than it. A binary search trees upper bound is O(n) unless it is balanced. When balanced, meaning that both sides are even in nodes, the upper bound of  O(logn). Trees are great for handling insertions and deletions.
 
+MORE ON TRIES
 
+A trie is a hash table like structure made of arrays with nodes at their indices's. The first index of every array is the root node. The root node says if the array has data or not. Tries run in constant time.
