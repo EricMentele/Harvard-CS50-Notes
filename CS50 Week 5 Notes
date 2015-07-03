@@ -128,7 +128,7 @@ BITMAP INFO HEADER struct defines the dimensions and color format of a DIB.
 
 {
   DWORD biSize;
-  		Number of bytes required by the structure (size of just the image excluding headers).
+  		Number of bytes required by the structure (size of the header).
   LONG  biWidth;
   		Bitmap width in pixels.
   LONG  biHeight;

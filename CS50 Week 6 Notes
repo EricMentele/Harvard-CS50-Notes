@@ -1,0 +1,98 @@
+CS50 Week 6 Notes
+
+LINKED LIST
+
+Pros:
+Dynamic insertion with malloc and update of a few pointers.
+Easily resized because of dynamic memory allocation.
+
+Cons:
+Linear search only. No random access.
+Pointers for nodes take extra memory.
+O(n) for search, deletion, and insertion.
+
+Hash Tables
+
+Hashing is basically putting things in piles. Like taking in an odd number and assigning it to an index in an array where all odd numbers get assigned from that point on to keep them together. You can take other values and hash them to a number. An example would be hashing name tags alphabetically.
+
+Linear probing
+
+
+
+HASH TABLE STRUCTURE
+
+Building blocks: Arrays, linked lists, structs.
+
+Array: Could be declared with dynamically like this, char* table[CAPACITY];
+The array stores pointers to a linked list in each index or NULL.
+
+Linked Lists: Attached to different indexes of the array.
+Nodes for linked list
+
+typedef struct node
+{
+    char* word;
+    struct node* next;
+}
+node;
+
+Declare structure of hashtable:
+node* table[CAPACITY];
+
+TREES AND TRIES
+
+Tree
+
+An array of nodes pointing to a node in another array of nodes.
+
+Trie
+
+A tree optimized for retrieval.
+
+The nodes have a bool added indicating if it is an end of a word.
+
+STACKS AND QUEUES
+
+A linked list or an array can be used for these.
+
+TREES
+
+Root -> children-siblings (leaves). It looks like an upside-down tree with the root at the top
+
+Made with nodes that look like
+
+typedef struct node
+{
+    int n;
+    struct node* left;
+    struct node* right;
+}
+node;
+
+Allows for the construction of a two dimensional linked list.
+Thinking with recursion, if the integers are in a sorted order, you get a binary search tree.
+
+Example algorithm
+
+bool search(int n, node* tree)
+{
+    if(tree == NULL)
+    {
+        return false;
+    }
+    else if (n < tree->n)
+    {
+        return search(n, tree->left);
+    }
+    else if (n > tree->n)
+    {
+        return search(n, tree->right);
+    }
+    else
+    {
+        return true;
+    }
+}
+
+
+
