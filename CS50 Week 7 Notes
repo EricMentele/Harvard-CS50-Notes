@@ -42,6 +42,8 @@ DNS makes queries of what a website address is.
 HTTP (Hyper Text Transfer Protocol)
 HTTPS (S is for secure I think) Has a TCP number greater than 255 because it has to do with TCP not IP. A port number is 16bit.
 
+Most common is 80 and 443 for web.
+
 TRACEROUTE
 
 traceroute is a terminal program that allows you to see the servers between you and an address.
@@ -63,3 +65,144 @@ Status codes.
 500 Internal Server Error
 
 What is given back is HTML (Hypertext Markup Language) along with Javascript and CSS. This is run by your web browser to display a web page.
+
+
+PART 2 : HTTP Review
+
+It is a protocol computers use to transfer data over the web.
+
+When you post a GET request it is placed in a digital packet with your IP address. The / after GET and in a web address just refers to the root directory of the server.
+
+HTML
+
+Declare an html document with <!DOCTYPE html> at the top.
+Declare the beginning and end of the page with <html> </html>
+Then you want a head section with <head> </head> containing a title with <title> </title> and a body for text with <body> </body>.
+
+html is like the root of a tree structure with all its elements descending from it. This is Called a DOM (Document Object Model)
+
+The web browser opens files by address and if the file is on your computer it would look something like this: "Notice that the URL in the address bar reads file:///home/jharvard/Desktop/hello.html, indicating that we are looking at a file on our local hard drive, and no one else should be able to see it."
+
+SERVERS AND PERMISSIONS
+
+The appliance can be used as a web server using to sets of software. MySQL for a database and Apache for a web server.
+
+vhosts/localhost/public/ 1 is the root folder that our sever software looks into, localhost means your computer and public is the publicly accessible folder.
+
+If you move a file into this folder, you can access it through chrome by putting your ip address with a /filename at the end.
+To access and image through an html file it requires certain tags (<img src="img.jpg"/>) for the right request; however, the file needs to have the right permissions on the server to be accessed.
+You view the permissions with ls -l in the terminal.
+chmod a+r file
+This will change the permissions to all read. Meaning the file is readable by everyone.
+
+LINKS
+
+Link tags look like this: <a href="http://www.google.com/">search for cats</a>.
+a is for anchor, href for hyper text reference, then we have the url, then the text that will be shown to a human.
+
+Then we have lists, paragraphs and tables. REVIEW FOR ME.
+
+FORMS
+
+To see what is happening when a webpage is requested we need to use dev tools network tab. When reloading a page hold shift to reload the whole thing so that you can bypass cached info and see the whole process.
+
+When a browser first gets HTML. It goes through the tags and downloads the specified resources from the locations they are at.
+You can create a form action to make your own mini search engine on top of google like this.
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>CS50 Search</title>
+    </head>
+    <body>
+        <h1>CS50 Search</h1> 
+        <form action="https://www.google.com/search" method="get"> 
+            <input name="q" type="text"/> 
+            <br/>
+            <input type="submit" value="CS50 Search"/>
+        </form>
+    </body>
+</html>
+
+A body style tag can be used to align text: <body style="text-align: center"> (this is CSS)
+
+CSS
+
+Stands for cascading style sheets. Used to add aesthetics to a webpage. Visual changes.
+CSS uses key value pairs. ie. text-align: center.
+You link a page to a style sheet with this: <link href="search-3.css" rel="stylesheet"/>
+
+EXAMPLE OF CSS & HTML:
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <style>
+
+            #header
+            {
+                text-align: center;
+            }
+
+            #content
+            {
+                text-align: center;
+            }
+
+            #content input
+            {
+                margin: 5px;
+            }
+
+            #footer
+            {
+                font-size: smaller;
+                font-weight: bold;
+                margin: 20px;
+                text-align: center;
+            }
+
+        </style>
+        <title>CS50 Search</title>
+    </head>
+    <body>
+        <div id="header">
+            <img alt="CS50 Search" src="logo.gif"/>
+        </div>
+        <div id="content">
+            <form action="https://www.google.com/search" method="get">
+                <input name="q" type="text"/>
+                <br/>
+                <input type="submit" value="CS50 Search"/>
+            </form>
+        </div>
+        <div id="footer">
+            Copyright &#169; CS50
+        </div>
+    </body>
+</html>
+
+PHP
+
+Is a scripting language used on the web.
+
+$ declares variables and they do not need to have type specified.
+
+Most of the logic is the same as C. if statements, for loops, etc.
+
+foreach ($numbers as $number)
+{
+    // do this with $number
+}
+
+this gives allows you to run code for each element of an array.
+
+Arrays are pre initialized with [] ie. $numbers[1,2,3,4,4]
+
+php has associative arrays which are like dictionaries or hash tables
+
+$quote = ["symbol" => "FB", "price" => "79.53"];
+
+
