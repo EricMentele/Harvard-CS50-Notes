@@ -1,0 +1,65 @@
+
+IP address stands for Internet Protocol and it is the address of the computer on the web. Protocol just means that it follows a certain set of rules.
+TCP/IP
+
+IP addresses the packets and TCP ensures they are delivered.
+
+The form of an IP address is: #.#.#.#. Each # is between 0-255. The address is 32 bit made from 8 bit numbers. Organizations have different prefixes to their IP addresses. ie. 140.247.#.# = Harvard. There are prefixes for private networks that are not on the Internet at large.
+
+An example of the pieces in play are laptop -> AP access point (ie. home router) -> switch -> Router -> Cloud (rest of the Internet)
+																					   	   -> DHCP Server
+																					   	   -> DNS Server
+
+At home the everything to the right of the AP access point is replaced by a modem connecting you to your service providers equipment.
+
+DHCP (Dynamic Host Configuration Protocol) Assigns IP addresses to computers.
+
+DNS (Domain Name System) Translates website urls to to IP addresses and vice versa.
+	Hostnames are similar to DNS as they allow you to address servers by names rather than numbers.
+
+"nslookup facebook.com (in terminal)
+Server:   140.247.233.163      (2)
+Address:  140.247.233.163#53   (3)
+
+Non-authoritative answer:
+Name: facebook.com
+Address: 173.252.120.6         (7)
+The first part, lines 2-3, is the address of Harvard’s DNS servers, and the last line, line 7, is its response to the question of what Facebook’s IP address really is. And if we copied that number, and went to http://173.252.120.6, we’ll indeed end up at facebook.com."
+
+TCP (Transmission Control Protocol) Used by routers along with IP to guarantee delivery of packets to the right address.
+
+TCP has numbers associated with certain services because they transmit different types of information.
+"ports
+21 FTP
+25 SMTP
+53 DNS
+80 HTTP
+443 HTTPS"
+
+FTP (File Transfer Protocol)
+SMTP (Simple Mail Transfer Protocol) is for outbound mail.
+DNS makes queries of what a website address is.
+HTTP (Hyper Text Transfer Protocol)
+HTTPS (S is for secure I think) Has a TCP number greater than 255 because it has to do with TCP not IP. A port number is 16bit.
+
+TRACEROUTE
+
+traceroute is a terminal program that allows you to see the servers between you and an address.
+
+HTTP REQUESTS
+
+Your machine (Client) -> request -> Web Server Machine (Responds with information)
+
+Clients use GET requests to ask for information.
+The server responds with a status code and the requested data if the code is good.
+
+Status codes.
+200 OK
+301 Moved Permanently
+302 Found
+401 Unauthorized
+403 Forbidden
+404 Not Found
+500 Internal Server Error
+
+What is given back is HTML (Hypertext Markup Language) along with Javascript and CSS. This is run by your web browser to display a web page.
