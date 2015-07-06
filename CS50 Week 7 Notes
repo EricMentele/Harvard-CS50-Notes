@@ -26,7 +26,7 @@ Name: facebook.com
 Address: 173.252.120.6         (7)
 The first part, lines 2-3, is the address of Harvard’s DNS servers, and the last line, line 7, is its response to the question of what Facebook’s IP address really is. And if we copied that number, and went to http://173.252.120.6, we’ll indeed end up at facebook.com."
 
-TCP (Transmission Control Protocol) Used by routers along with IP to guarantee delivery of packets to the right address.
+TCP (Transmission Control Protocol) Used by routers along with IP to guarantee delivery of packets to the right address. It will tell you if packets are missing by numbering the packets.
 
 TCP has numbers associated with certain services because they transmit different types of information.
 "ports
@@ -205,4 +205,7 @@ php has associative arrays which are like dictionaries or hash tables
 
 $quote = ["symbol" => "FB", "price" => "79.53"];
 
+SECTION
+
+Ports are used by TCP to let you know what kind of data is being transmitted.
 
