@@ -1,0 +1,271 @@
+CS50 Week 8 Notes
+
+PHP BASICS
+
+"#!/usr/bin/env php
+<?php
+
+    printf("hello, world\n");
+
+?>
+In line 1, we are telling the operating system to find the interpreter for PHP, wherever it is.
+
+In line 2, we are writing a PHP start tag that means "this is the beginning of PHP code."
+
+In line 4, we can write a printf statement that looks suspiciously like C.
+
+And in line 6, we’re simply telling the interpreter, "this is the end of our PHP code.""
+
+PHP does not need to be compiled so no need to pass arguments to a compiler. The interpreter handles it all. Also there is no need to add libraries for basic data types or to get input from the user as this is included in the language.
+
+#!/usr/bin/env php
+<?php
+These two lines at the top of a file define php so that the code will be paseed to the interpreter.
+
+HASH TABLE PHP
+
+A hash table can be declared like this:
+
+<?php
+	$size = 0;
+	$table = [];
+
+To load in php:
+
+function load($dictionary)
+{
+		// We have to specify global with variables we want to use outside of our function.
+		global $size;
+		global $table;
+
+		// returns the dictionary file as an array of strings (word) and iterates over each element.
+		foreach(file($dictionary) as $word)
+		{
+			// chop gets rid of whitespace or newline characters.
+			$table[chop($word)] = true;
+			$size++;
+		}
+		return true;
+}
+
+function size()
+{
+	global $size;
+	return size;
+}
+
+function check($word)
+{
+	// if there is a value for word in the global table set it to lower case and then return true
+	global $table;
+	return isset($table[strtolower($word)]);
+}
+
+Memory management is handled for you in PHP but it comes at a heavy price in speed.
+
+PHP FOR THE WEB
+
+get method puts request information in the URL. Post sends it a different way and is better for information that needs to be secure. An example of this in a html page would be: <form action="register-0.php" method="post">
+
+<?php print_r($_POST); ?>
+The above line recursively prints out the post variable.
+
+You can index into this variable with key names. It is a dictionary.
+
+PHP is used with HTML like this:
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Frosh IMs</title>
+    </head>
+    <body>
+        <pre>
+            <?php print_r($_POST); ?>
+        </pre>
+    </body>
+</html>
+
+Here is code that will send an email to a person registering.
+
+<?php
+
+    // require PHPMailer. This is like include for c and adds the mailer library.
+    require("libphp-phpmailer/class.phpmailer.php");
+
+	// validate submission by checking if any fields are empty
+    if (!empty($_POST["name"]) && !empty($_POST["gender"]) && !empty($_POST["dorm"]))
+    {
+        // instantiate mailer object.
+        $mail = new PHPMailer();
+
+        // Configure communication protocol, host server, port to use and security protocol. In this case the information was gained from HUIT helpdesk.
+        // use SMTP
+        $mail->IsSMTP();
+        $mail->Host = "smtp.fas.harvard.edu";
+        $mail->Port = 587;
+        $mail->SMTPSecure = "tls";
+
+        // set From:
+        $mail->SetFrom("jharvard@cs50.harvard.edu");
+
+        // set To:
+        $mail->AddAddress("jharvard@cs50.harvard.edu");
+
+        // set Subject:
+        $mail->Subject = "registration";
+
+        // set body. The . operator is for concatenating strings.
+        $mail->Body =
+            "This person just registered:\n\n" .
+            "Name: " . $_POST["name"] . "\n" .
+            "Captain: " . $_POST["captain"] . "\n" .
+            "Gender: " . $_POST["gender"] . "\n" .
+            "Dorm: " . $_POST["dorm"];
+
+        // send mail and if it doesn't work kill the connection to the host.
+        if ($mail->Send() == false)
+        {
+            die($mail->ErrInfo);
+        }
+    }
+    else
+    {
+    	// send user to this url if any fields were empty.
+        header("Location: http://localhost/src8m/froshims/froshims-3.php");
+        exit;
+    }
+?>
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Frosh IMs</title>
+    </head>
+    <body>
+        You are registered!  (Really.)
+    </body>
+</html>
+
+This is an example of a php program that counts the number of times you have visted it's page. HTTP does not allow us a constant connection but this script allows us to create the illusion of constant state.
+
+<?php
+
+    // enable sessions
+    // creates a bucket that stores values to be reaccessed later. This is done in the form of cookies and relies on the user keeping them.
+    session_start();
+
+    // check counter
+    if (isset($_SESSION["counter"]))
+    {
+        $counter = $_SESSION["counter"];
+    }
+    else
+    {
+        $counter = 0;
+    }
+
+    // increment counter
+    $_SESSION["counter"] = $counter + 1;
+
+?>
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>counter</title>
+    </head>
+    <body>
+        You have visited this site <?= $counter ?> time(s).
+    </body>
+</html>
+
+Using bootstrap like this can allow us to use prewritten CSS: <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+
+MVC with require and functions
+
+If no url is specified for a default page then webservers will use index.php. This file can be just hardcoded html.
+
+In this version of index.php we include php:
+
+// require is like include in c and just uses header.php and footer in place of hardcoded html.
+<?php require("header.php"); ?>
+
+<ul>
+    <li><a href="lectures.php">Lectures</a></li>
+    <li><a href="http://cdn.cs50.net/2014/fall/lectures/0/w/syllabus/syllabus.html">Syllabus</a></li>
+</ul>
+
+<?php require("footer.php"); ?>
+
+
+If you wanted a more advanced version you could add a helpers file:
+
+<?php require("includes/helpers.php"); ?>
+// make the header with the header template and give the title of CS50.
+<?php render("header", ["title" => "CS50"]); ?>
+
+<ul>
+    <li><a href="lectures.php">Lectures</a></li>
+    <li><a href="http://cdn.cs50.net/2014/fall/lectures/0/w/syllabus/syllabus.html">Syllabus</a></li>
+</ul>
+
+<?php render("footer"); ?>
+
+
+This helpers file looks like this:
+
+<?php
+
+    /**
+     * Renders template.
+     */
+    // functions in php do not need return types. data = [], says that if nothing comes as that parameter then give it an empty array.
+    function render($template, $data = [])
+    {
+    	// the . in php is for concatenating strings.
+        $path = $template . ".php";
+        if (file_exists($path))
+        {
+        	// use extract to pull out keys and create variables out of them.
+            extract($data);
+            require($path);
+        }
+    }
+
+?>
+
+index.php grabs the file helpers.php at it's path and uses the function within to populate the page based on the template and associatave array.
+With MVC all these are seperated into files. The more advanced version is there to dry the code.
+
+MVC is model, view, controller. The controller is we keep are programming logic (php), View is in charge of what is seen so CSS/HTML and model is data, SQL.
+
+SUPER GLOBALS AND COOKIES
+
+
+
+INTRO TO SQL
+
+
+CREATING A TABLE
+
+
+MVC WITH TEXTING
+
+
+REGISTERING
+
+
+TEXTING
+
+
+
+
+
+
+
+
+
