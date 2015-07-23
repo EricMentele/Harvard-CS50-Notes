@@ -243,27 +243,167 @@ With MVC all these are seperated into files. The more advanced version is there 
 
 MVC is model, view, controller. The controller is we keep are programming logic (php), View is in charge of what is seen so CSS/HTML and model is data, SQL.
 
-SUPER GLOBALS AND COOKIES
+SUPER GLOBALS AND COOKIES ++++
+
+superglobals:
+
+$_COOKIE - data that a server stores on your computer to remember you in the future. Set-Cookie populates this.
+
+$_GET
+
+$_POST - stores forms sent by POST method.
+
+$_SERVER - gives you details about the server,
+
+$_SESSION
+
+$_FILES - stores files.
+
+All super globals are associative arrays.
 
 
 
-INTRO TO SQL
+INTRO TO SQL (Structure Querey Language)
 
+SQL has fundamental statements like:
+
+DELETE - removes data
+
+INSERT - adds rows
+
+UPDATE - changes rows
+
+SELECT - gets rows (returns an array of rows)
+
+The reccomended tool for working with SQL is phpMyAdmin. It administers a MySQL server.
+A table is like a spreadsheet with it's own rows and columns. You use SELECT * FROM `users` will access the table users and get * (all objects) from it.
+DELETE FROM `users` WHERE username = "zamayla" iterates through users(table) -> username(key) and deletes where value is "zamyla".
+INSERT INTO `users` (username, hash) VALUES('gabe', 'TODO') Inserts username gabe into the user table with a hash value of TODO.
 
 CREATING A TABLE
 
+SQL data types
+
+CHAR
+
+VARCHAR
+
+INT
+
+BIGINT
+
+DECIMAL
+
+DATETIME
+
+When creating a table in phpMyAdmin. It allows you to select datatypes for each row.
+An unsigned int for attributes will mean that it has to be nonnegative.
+By selecting PRIMARY for id you can optimize the speed of the database retrieval because int is faster than string to access.
+A_I means auto increment and should be checked so the id column is updated.
+VARCHAR allows variable length values for dynamic tabel population.
+UNIQUE prevents multiple values from being the same which is good for username to prevent confusion. Cannont insert row with same username as another.
+INDEX will index a field to increase speed of searches.
+FULLTEXT specifies the possibility of full text searches.
 
 MVC WITH TEXTING
 
+There are three directories in the distro code:
+public - files that users can visit MODEL
+templates - reusable components and the VIEW component where aesthetics are stored.
+includes - programming logic or CONTROLLER components
 
 REGISTERING
 
+<?php
+
+    require("../includes/config.php");
+    // check values of submission form and inform user if they were stored.
+    if (empty($_POST["name"]))
+    {
+    	// function defined in config to display message.
+        apologize("Missing name");
+    }
+    else if (empty($_POST["number"]))
+    {
+        apologize("Missing number");
+    }
+    // if proper input recieved, store it in table and notify user. ? marks are place holders to add values later.
+    query("INSERT INTO users (name, number) VALUES(?, ?)", $_POST["name"], $_POST["number"]);
+
+    render("success.php");
+?>
 
 TEXTING
 
+#!/usr/bin/env php
+<?php
+	// include config file
+    require("includes/config.php");
+    // get all fields from users as an array of associative arrays
+    $rows = query("SELECT * FROM users");
+    // iterate through associatve array and access values of associative arrays to print.
+    foreach ($rows as $row)
+    {
+        printf("Name is %s, and number is %s\n", $row["name"], $row["number"]);
+        text($row["number"], $row["carrier"], "Don't screw up this year");
+    }
+
+?>
 
 
+In functions.php:
 
+    /**
+     * Sends a text. Returns true on success, else false.
+     */
+    function text($number, $carrier, $message)
+    {
+        // determine address (switch cases in PHP can take strings)
+        switch ($carrier)
+        {
+            case "AT&T":
+                $address = "{$number}@txt.att.net";
+                break;
+
+            case "Verizon":
+                $address = "{$number}@vtext.com";
+                break;
+        }
+        if (!isset($address))
+        {
+            return false;
+        }
+
+        // instantiate mailer
+        $mail = new PHPMailer();
+
+        // use SMTP
+        $mail->IsSMTP();
+        $mail->Host = "smtp.fas.harvard.edu";
+        $mail->Port = 587;
+        $mail->SMTPSecure = "tls";
+
+        // set From:
+        $mail->SetFrom("jharvard@cs50.harvard.edu");
+
+        // set To:
+        $mail->AddAddress($address);
+
+        // set body
+        $mail->Body = $message;
+
+        // send text
+        if ($mail->Send())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+With AT&T and Verizon you can send a text to a phone with {$number}@vtext.com. You email this way and it goes to that number as a text message.
+The code above is buggy and did not work.
 
 
 
