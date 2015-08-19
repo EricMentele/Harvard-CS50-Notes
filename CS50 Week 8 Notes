@@ -2,19 +2,19 @@ CS50 Week 8 Notes
 
 PHP BASICS
 
-"#!/usr/bin/env php
+#!/usr/bin/env php
 <?php
 
-    printf("hello, world\n");
+    printf(hello, world\n);
 
 ?>
 In line 1, we are telling the operating system to find the interpreter for PHP, wherever it is.
 
-In line 2, we are writing a PHP start tag that means "this is the beginning of PHP code."
+In line 2, we are writing a PHP start tag that means this is the beginning of PHP code.
 
 In line 4, we can write a printf statement that looks suspiciously like C.
 
-And in line 6, we’re simply telling the interpreter, "this is the end of our PHP code.""
+And in line 6, we’re simply telling the interpreter, this is the end of our PHP code.
 
 PHP does not need to be compiled so no need to pass arguments to a compiler. The interpreter handles it all. Also there is no need to add libraries for basic data types or to get input from the user as this is included in the language.
 
@@ -65,7 +65,7 @@ Memory management is handled for you in PHP but it comes at a heavy price in spe
 
 PHP FOR THE WEB
 
-get method puts request information in the URL. Post sends it a different way and is better for information that needs to be secure. An example of this in a html page would be: <form action="register-0.php" method="post">
+get method puts request information in the URL. Post sends it a different way and is better for information that needs to be secure. An example of this in a html page would be: <form action=register-0.php method=post>
 
 <?php print_r($_POST); ?>
 The above line recursively prints out the post variable.
@@ -92,10 +92,10 @@ Here is code that will send an email to a person registering.
 <?php
 
     // require PHPMailer. This is like include for c and adds the mailer library.
-    require("libphp-phpmailer/class.phpmailer.php");
+    require(libphp-phpmailer/class.phpmailer.php);
 
 	// validate submission by checking if any fields are empty
-    if (!empty($_POST["name"]) && !empty($_POST["gender"]) && !empty($_POST["dorm"]))
+    if (!empty($_POST[name]) && !empty($_POST[gender]) && !empty($_POST[dorm]))
     {
         // instantiate mailer object.
         $mail = new PHPMailer();
@@ -103,26 +103,26 @@ Here is code that will send an email to a person registering.
         // Configure communication protocol, host server, port to use and security protocol. In this case the information was gained from HUIT helpdesk.
         // use SMTP
         $mail->IsSMTP();
-        $mail->Host = "smtp.fas.harvard.edu";
+        $mail->Host = smtp.fas.harvard.edu;
         $mail->Port = 587;
-        $mail->SMTPSecure = "tls";
+        $mail->SMTPSecure = tls;
 
         // set From:
-        $mail->SetFrom("jharvard@cs50.harvard.edu");
+        $mail->SetFrom(jharvard@cs50.harvard.edu);
 
         // set To:
-        $mail->AddAddress("jharvard@cs50.harvard.edu");
+        $mail->AddAddress(jharvard@cs50.harvard.edu);
 
         // set Subject:
-        $mail->Subject = "registration";
+        $mail->Subject = registration;
 
         // set body. The . operator is for concatenating strings.
         $mail->Body =
-            "This person just registered:\n\n" .
-            "Name: " . $_POST["name"] . "\n" .
-            "Captain: " . $_POST["captain"] . "\n" .
-            "Gender: " . $_POST["gender"] . "\n" .
-            "Dorm: " . $_POST["dorm"];
+            This person just registered:\n\n .
+            Name:  . $_POST[name] . \n .
+            Captain:  . $_POST[captain] . \n .
+            Gender:  . $_POST[gender] . \n .
+            Dorm:  . $_POST[dorm];
 
         // send mail and if it doesn't work kill the connection to the host.
         if ($mail->Send() == false)
@@ -133,7 +133,7 @@ Here is code that will send an email to a person registering.
     else
     {
     	// send user to this url if any fields were empty.
-        header("Location: http://localhost/src8m/froshims/froshims-3.php");
+        header(Location: info@localhost/src8m/froshims/froshims-3.php);
         exit;
     }
 ?>
@@ -158,9 +158,9 @@ This is an example of a php program that counts the number of times you have vis
     session_start();
 
     // check counter
-    if (isset($_SESSION["counter"]))
+    if (isset($_SESSION[counter]))
     {
-        $counter = $_SESSION["counter"];
+        $counter = $_SESSION[counter];
     }
     else
     {
@@ -168,7 +168,7 @@ This is an example of a php program that counts the number of times you have vis
     }
 
     // increment counter
-    $_SESSION["counter"] = $counter + 1;
+    $_SESSION[counter] = $counter + 1;
 
 ?>
 
@@ -183,7 +183,7 @@ This is an example of a php program that counts the number of times you have vis
     </body>
 </html>
 
-Using bootstrap like this can allow us to use prewritten CSS: <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+Using bootstrap like this can allow us to use prewritten CSS: <link href=bootstrap/css/bootstrap.min.css rel=stylesheet/>
 
 MVC with require and functions
 
@@ -192,28 +192,28 @@ If no url is specified for a default page then webservers will use index.php. Th
 In this version of index.php we include php:
 
 // require is like include in c and just uses header.php and footer in place of hardcoded html.
-<?php require("header.php"); ?>
+<?php require(header.php); ?>
 
 <ul>
-    <li><a href="lectures.php">Lectures</a></li>
-    <li><a href="http://cdn.cs50.net/2014/fall/lectures/0/w/syllabus/syllabus.html">Syllabus</a></li>
+    <li><a href=lectures.php>Lectures</a></li>
+    <li><a href=info@cdn.cs50.net/2014/fall/lectures/0/w/syllabus/syllabus.html>Syllabus</a></li>
 </ul>
 
-<?php require("footer.php"); ?>
+<?php require(footer.php); ?>
 
 
 If you wanted a more advanced version you could add a helpers file:
 
-<?php require("includes/helpers.php"); ?>
+<?php require(includes/helpers.php); ?>
 // make the header with the header template and give the title of CS50.
-<?php render("header", ["title" => "CS50"]); ?>
+<?php render(header, [title => CS50]); ?>
 
 <ul>
-    <li><a href="lectures.php">Lectures</a></li>
-    <li><a href="http://cdn.cs50.net/2014/fall/lectures/0/w/syllabus/syllabus.html">Syllabus</a></li>
+    <li><a href=lectures.php>Lectures</a></li>
+    <li><a href=info@cdn.cs50.net/2014/fall/lectures/0/w/syllabus/syllabus.html>Syllabus</a></li>
 </ul>
 
-<?php render("footer"); ?>
+<?php render(footer); ?>
 
 
 This helpers file looks like this:
@@ -227,7 +227,7 @@ This helpers file looks like this:
     function render($template, $data = [])
     {
     	// the . in php is for concatenating strings.
-        $path = $template . ".php";
+        $path = $template . .php;
         if (file_exists($path))
         {
         	// use extract to pull out keys and create variables out of them.
@@ -243,19 +243,19 @@ With MVC all these are seperated into files. The more advanced version is there 
 
 MVC is model, view, controller. The controller is we keep are programming logic (php), View is in charge of what is seen so CSS/HTML and model is data, SQL.
 
-SUPER GLOBALS AND COOKIES ++++
+SUPER GLOBALS AND COOKIES
 
 superglobals:
 
 $_COOKIE - data that a server stores on your computer to remember you in the future. Set-Cookie populates this.
 
-$_GET
+$_GET - variables from the query string.
 
 $_POST - stores forms sent by POST method.
 
 $_SERVER - gives you details about the server,
 
-$_SESSION
+$_SESSION - Stores user information in browser across all sites until the browser is closed. Session_start() means a cookie will be sent around.
 
 $_FILES - stores files.
 
@@ -277,7 +277,7 @@ SELECT - gets rows (returns an array of rows)
 
 The reccomended tool for working with SQL is phpMyAdmin. It administers a MySQL server.
 A table is like a spreadsheet with it's own rows and columns. You use SELECT * FROM `users` will access the table users and get * (all objects) from it.
-DELETE FROM `users` WHERE username = "zamayla" iterates through users(table) -> username(key) and deletes where value is "zamyla".
+DELETE FROM `users` WHERE username = zamayla iterates through users(table) -> username(key) and deletes where value is zamyla.
 INSERT INTO `users` (username, hash) VALUES('gabe', 'TODO') Inserts username gabe into the user table with a hash value of TODO.
 
 CREATING A TABLE
@@ -308,7 +308,7 @@ FULLTEXT specifies the possibility of full text searches.
 MVC WITH TEXTING
 
 There are three directories in the distro code:
-public - files that users can visit MODEL
+public - files that users can interact with via html fields. MODEL
 templates - reusable components and the VIEW component where aesthetics are stored.
 includes - programming logic or CONTROLLER components
 
@@ -316,21 +316,21 @@ REGISTERING
 
 <?php
 
-    require("../includes/config.php");
+    require(../includes/config.php);
     // check values of submission form and inform user if they were stored.
-    if (empty($_POST["name"]))
+    if (empty($_POST[name]))
     {
     	// function defined in config to display message.
-        apologize("Missing name");
+        apologize(Missing name);
     }
-    else if (empty($_POST["number"]))
+    else if (empty($_POST[number]))
     {
-        apologize("Missing number");
+        apologize(Missing number);
     }
     // if proper input recieved, store it in table and notify user. ? marks are place holders to add values later.
-    query("INSERT INTO users (name, number) VALUES(?, ?)", $_POST["name"], $_POST["number"]);
+    query(INSERT INTO users (name, number) VALUES(?, ?), $_POST[name], $_POST[number]);
 
-    render("success.php");
+    render(success.php);
 ?>
 
 TEXTING
@@ -338,14 +338,14 @@ TEXTING
 #!/usr/bin/env php
 <?php
 	// include config file
-    require("includes/config.php");
+    require(includes/config.php);
     // get all fields from users as an array of associative arrays
-    $rows = query("SELECT * FROM users");
+    $rows = query(SELECT * FROM users);
     // iterate through associatve array and access values of associative arrays to print.
     foreach ($rows as $row)
     {
-        printf("Name is %s, and number is %s\n", $row["name"], $row["number"]);
-        text($row["number"], $row["carrier"], "Don't screw up this year");
+        printf(Name is %s, and number is %s\n, $row[name], $row[number]);
+        text($row[number], $row[carrier], Don't screw up this year);
     }
 
 ?>
@@ -361,12 +361,12 @@ In functions.php:
         // determine address (switch cases in PHP can take strings)
         switch ($carrier)
         {
-            case "AT&T":
-                $address = "{$number}@txt.att.net";
+            case AT&T:
+                $address = {$number}@txt.att.net;
                 break;
 
-            case "Verizon":
-                $address = "{$number}@vtext.com";
+            case Verizon:
+                $address = {$number}@vtext.com;
                 break;
         }
         if (!isset($address))
@@ -379,12 +379,12 @@ In functions.php:
 
         // use SMTP
         $mail->IsSMTP();
-        $mail->Host = "smtp.fas.harvard.edu";
+        $mail->Host = smtp.fas.harvard.edu;
         $mail->Port = 587;
-        $mail->SMTPSecure = "tls";
+        $mail->SMTPSecure = tls;
 
         // set From:
-        $mail->SetFrom("jharvard@cs50.harvard.edu");
+        $mail->SetFrom(jharvard@cs50.harvard.edu);
 
         // set To:
         $mail->AddAddress($address);
@@ -404,8 +404,3 @@ In functions.php:
     }
 With AT&T and Verizon you can send a text to a phone with {$number}@vtext.com. You email this way and it goes to that number as a text message.
 The code above is buggy and did not work.
-
-
-
-
-

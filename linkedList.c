@@ -214,5 +214,13 @@ void viewList(void) {
 //                                                                      QUIT
 void quit(void)
 {
+    node* seeker = head;
+    while(seeker->next != NULL) {
+        seeker = seeker->next;
+        free(head);
+        head = seeker;
+    }
+    free(seeker);
+
 	exit(1);
 }
